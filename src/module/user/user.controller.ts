@@ -1,6 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { Roles } from '@thallesp/nestjs-better-auth';
 import { UserService } from './user.service';
+import { ResponseMessage } from '../../common/decorators/response-message.decorator';
 
 // Authentication is enforced by the AuthGuard that AuthModule registers
 // globally; @Roles adds the role check on top of it.
@@ -11,6 +12,7 @@ export class UserController {
     // Declared before ':id' so 'all' is not captured as an id.
     @Get('all')
     @Roles(['ADMIN'])
+    @ResponseMessage('Fetch all users')
     findAll() {
         return this.userService.findAll();
     }
