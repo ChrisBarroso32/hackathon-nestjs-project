@@ -9,6 +9,7 @@ import { ArcjetModule } from './lib/arcjet/arcjet.module';
 import { createAuth } from './lib/auth/auth';
 import { PrismaModule } from './lib/database/prisma.module';
 import { PrismaService } from './lib/database/prisma.service';
+import { UserModule } from './module/user/user.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { PrismaService } from './lib/database/prisma.service';
       inject: [PrismaService],
       useFactory: (prisma: PrismaService) => ({ auth: createAuth(prisma) }),
     }),
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: ArcjetGuard }],
