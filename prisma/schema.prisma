@@ -30,6 +30,9 @@ model User {
   sessions      Session[]
   accounts      Account[]
 
+  authoredHackathons     Hackathon[]
+  hackathonParticipation HackathonParticipant[]
+
   @@unique([email])
   @@map("user")
 }
@@ -68,6 +71,38 @@ model Account {
 
   @@index([userId])
   @@map("account")
+}
+
+model Hackathon {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  authorId     String
+  author       User                   @relation(fields: [authorId], references: [id], onDelete: Restrict)
+  participants HackathonParticipant[]
+
+  @@index([authorId])
+  @@map("hackathon")
+}
+
+model HackathonParticipant {
+  id          String   @id @default(uuid())
+  hackathonId String
+  userId      String
+  joinedAt    DateTime @default(now())
+
+  hackathon Hackathon @relation(fields: [hackathonId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([hackathonId, userId])
+  @@index([userId])
+  @@map("hackathon_participant")
 }
 
 model Verification {
