@@ -10,6 +10,7 @@ import { createAuth } from './lib/auth/auth';
 import { PrismaModule } from './lib/database/prisma.module';
 import { PrismaService } from './lib/database/prisma.service';
 import { UserModule } from './module/user/user.module';
+import { HackathonModule } from './module/hackathon/hackathon.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { UserModule } from './module/user/user.module';
       useFactory: (prisma: PrismaService) => ({ auth: createAuth(prisma) }),
     }),
     UserModule,
+    HackathonModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: ArcjetGuard }],
